@@ -11,14 +11,14 @@ export const data = [
   // },
   {
     id: 2,
-    img: './src/assets/reservify.png',
+    img: 'https://drive.google.com/file/d/19AFXoPtt1y5GRjnZnfeyMjM3SLNizfZa/view',
     title: "Reservify",
     link: "",
     git: "https://github.com/MalikMohsin5885/Reservify",
   },
   {
     id: 3,
-    img: './src/assets/healthcare.png',
+    img: 'https://drive.google.com/file/d/1s94HHKxpyb9UV1N9NgelnlB-8fbKmedt/view',
     title: "Health Care Portal",
     desc: "",
     link: "",
