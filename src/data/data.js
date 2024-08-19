@@ -1,4 +1,5 @@
-
+import reservifyImage from '../assets/reservify.png';
+import healthcare from '../assets/healthcare.png';
 
 export const data = [
   // {
@@ -11,14 +12,14 @@ export const data = [
   // },
   {
     id: 2,
-    img: '../../../public/assets/reservify.png',
+    img: reservifyImage,
     title: "Reservify",
     link: "",
     git: "https://github.com/MalikMohsin5885/Reservify",
   },
   {
     id: 3,
-    img: '../../../public/assets/healthcare.png',
+    img: healthcare,
     title: "Health Care Portal",
     desc: "",
     link: "",
