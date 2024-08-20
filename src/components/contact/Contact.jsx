@@ -20,10 +20,11 @@ const Contact = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("https://portfolio-backened-yogb.onrender.com/contact", {
+      const response = await fetch("https://backend-lilac-chi.vercel.app/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          // "Access-Control-Allow-Origin" : "*",
         },
         body: JSON.stringify(formData),
       });
