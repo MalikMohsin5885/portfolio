@@ -20,7 +20,7 @@ const Contact = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("https://portfolio-backened-coral.vercel.app/contact", {
+      const response = await fetch("https://potfolio-backened.vercel.app/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
