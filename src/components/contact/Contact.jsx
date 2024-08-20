@@ -20,7 +20,7 @@ const Contact = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("https://potfolio-backened.vercel.app/contact", {
+      const response = await fetch("https://portfolio-backened-yogb.onrender.com/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
