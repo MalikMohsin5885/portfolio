@@ -40,6 +40,22 @@ const Contact = () => {
     }
   };
 
+  const handleGetRequest = async () => {
+    try {
+      const response = await fetch("https://backend-lilac-chi.vercel.app/contact");
+      if (response.ok) {
+        const data = await response.json();
+        console.log("GET Response:", data);
+        alert("GET request was successful!");
+      } else {
+        alert("GET request failed.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("There was an error with the GET request.");
+    }
+  };
+
   return (
     <div id="contact" className="container m-auto mt-16">
       <div className="relative mb-5">
@@ -106,6 +122,12 @@ const Contact = () => {
               <RiSendPlaneFill />
             </button>
           </form>
+          <button
+            className="bg-blue-500 mt-5 w-full text-white font-semibold p-2 rounded-lg flex items-center justify-center space-x-1"
+            onClick={handleGetRequest}
+          >
+            <span>Get Req</span>
+          </button>
         </div>
       </div>
     </div>
