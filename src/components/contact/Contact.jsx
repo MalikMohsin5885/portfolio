@@ -20,11 +20,10 @@ const Contact = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("https://backend-lilac-chi.vercel.app/contact", {
+      const response = await fetch("https://portfolio-backened-yogb.onrender.com/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          // "Access-Control-Allow-Origin" : "*",
         },
         body: JSON.stringify(formData),
       });
@@ -38,22 +37,6 @@ const Contact = () => {
     } catch (error) {
       console.error("Error:", error);
       alert("There was an error sending the message.");
-    }
-  };
-
-  const handleGetRequest = async () => {
-    try {
-      const response = await fetch("https://backend-lilac-chi.vercel.app/contact");
-      if (response.ok) {
-        const data = await response.json();
-        console.log("GET Response:", data);
-        alert("GET request was successful!");
-      } else {
-        alert("GET request failed.");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      alert("There was an error with the GET request.");
     }
   };
 
@@ -123,12 +106,6 @@ const Contact = () => {
               <RiSendPlaneFill />
             </button>
           </form>
-          <button
-            className="bg-blue-500 mt-5 w-full text-white font-semibold p-2 rounded-lg flex items-center justify-center space-x-1"
-            onClick={handleGetRequest}
-          >
-            <span>Get Req</span>
-          </button>
         </div>
       </div>
     </div>
