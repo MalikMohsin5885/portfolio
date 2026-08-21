@@ -1,45 +1,46 @@
-/** @type {import('tailwindcss').Config}*/
+/** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: "class",
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    container: {
-      center: true,
-      padding: "2rem",
-      screens: {
-        "2xl": "1535px",
-        xl: "1279px",
-        lg: "1023px",
-        sm: "639px",
-        md: "767px",
-      },
-      maxWidth: "100%",
-    },
-
     screens: {
-      "2xl": { max: "1535px" },
-      // => @media (max-width: 1535px) { ... }
-
-      xl: { max: "1279px" },
-      // => @media (max-width: 1279px) { ... }
-
-      lg: { max: "1023px" },
-      // => @media (max-width: 1023px) { ... }
-
-      md: { max: "836px" },
-      // => @media (max-width: 767px) { ... }
-
-      sm: { max: "639px" },
-      // => @media (max-width: 639px) { ... }
-      exsm: { max: "380px" },
+      sm: "640px",
+      md: "768px",
+      lg: "992px",
+      xl: "1280px",
+      "2xl": "1536px",
     },
     extend: {
       colors: {
-        "text-yellow-500": "#ffc312",
-        "customyellow": "#F2D762",
-        "grey": "#707070",
-        "white": "#F2F9FC",
-        "mine-shaft": "#353535"
+        lumen: "#FFFFEB",
+        "lumen-dark": "#E4E4D0",
+        vast: "#1A1A1A",
+        fathom: "#034F46",
+        glow: "#FFA946",
+        flare: "#FF6C4C",
+        dawn: "#F0D7FF",
+        signal: "#FFBCF2",
+        pulse: "#7F1C34",
+      },
+      fontFamily: {
+        serif: ['"EB Garamond"', "Georgia", "serif"],
+        sans: ['"Figtree"', "system-ui", "sans-serif"],
+        mono: ['"JetBrains Mono"', "monospace"],
+      },
+      maxWidth: {
+        nav: "57rem",
+        content: "51rem",
+        wide: "75rem",
+        full: "120rem",
+      },
+      borderRadius: {
+        section: "1.5rem",
+        "section-lg": "2.5rem",
+        "section-xl": "5rem",
+      },
+      spacing: {
+        18: "4.5rem",
+        22: "5.5rem",
+        30: "7.5rem",
       },
     },
   },

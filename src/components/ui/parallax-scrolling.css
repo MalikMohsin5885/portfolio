@@ -1,0 +1,244 @@
+/* Osmo parallax [https://osmo.supply/] — layer alignment preserved */
+
+.parallax,
+.parallax * {
+  transition: none !important;
+}
+
+.parallax {
+  --color-black: #000;
+  --color-light: #f2f9fc;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  color: var(--color-light);
+  background-color: #ffffeb;
+}
+
+.parallax__header {
+  z-index: 2;
+  position: relative;
+  height: 250vh;
+  min-height: 100svh;
+}
+
+.parallax__visuals {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #000;
+}
+
+.parallax__layers {
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+}
+
+/* Critical: Osmo layer dimensions — do not override top/height/object-position */
+.parallax__layer-img {
+  pointer-events: none;
+  object-fit: cover;
+  width: 100%;
+  max-width: none;
+  height: 117.5%;
+  position: absolute;
+  top: -17.5%;
+  left: 0;
+  will-change: transform;
+  user-select: none;
+}
+
+.parallax__layer-title {
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.parallax__title-block {
+  pointer-events: auto;
+  max-width: 42rem;
+  padding: 5.5rem 1.25rem 2rem;
+  text-align: center;
+}
+
+.parallax__tag {
+  color: rgba(255, 255, 235, 0.62) !important;
+  letter-spacing: 0.14em;
+}
+
+.parallax__title {
+  margin-top: 1.25rem;
+  margin-bottom: 0;
+  font-family: "EB Garamond", Georgia, serif;
+  font-size: clamp(2.75rem, 7vw, 4.75rem);
+  font-weight: 400;
+  line-height: 0.88;
+  letter-spacing: -0.02em;
+  color: #ffffeb;
+  text-shadow: 0 2px 32px rgba(0, 0, 0, 0.35);
+}
+
+.parallax__title em {
+  font-style: italic;
+  color: #ffa946;
+}
+
+.parallax__subtitle {
+  margin-top: 1.25rem;
+  max-width: 32rem;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: clamp(1rem, 2.2vw, 1.125rem);
+  line-height: 1.55;
+  color: rgba(255, 255, 235, 0.86);
+  text-shadow: 0 1px 20px rgba(0, 0, 0, 0.3);
+}
+
+.parallax__actions {
+  margin-top: 1.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.parallax__actions .btn-primary {
+  background-color: #ffffeb;
+  border-color: rgba(255, 255, 235, 0.4);
+  color: #1a1a1a;
+}
+
+.parallax__actions .btn-secondary {
+  border-color: rgba(255, 255, 235, 0.38);
+  color: #ffffeb;
+  background: rgba(255, 255, 235, 0.08);
+  backdrop-filter: blur(6px);
+}
+
+.parallax__availability {
+  margin-top: 1rem;
+  font-size: 0.875rem;
+  color: rgba(255, 255, 235, 0.58);
+}
+
+.parallax__tech-pills {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.parallax__tech-pill {
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 235, 0.22);
+  background: rgba(255, 255, 235, 0.07);
+  padding: 0.35rem 0.75rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 235, 0.78);
+  backdrop-filter: blur(4px);
+}
+
+.parallax__fade {
+  --color-dark-rgb: 255, 255, 235;
+  z-index: 30;
+  width: 100%;
+  max-width: none;
+  height: 20%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    rgba(var(--color-dark-rgb), 1) 0%,
+    rgba(var(--color-dark-rgb), 0.738) 19%,
+    rgba(var(--color-dark-rgb), 0.541) 34%,
+    rgba(var(--color-dark-rgb), 0.382) 47%,
+    rgba(var(--color-dark-rgb), 0.278) 56.5%,
+    rgba(var(--color-dark-rgb), 0.194) 65%,
+    rgba(var(--color-dark-rgb), 0.126) 73%,
+    rgba(var(--color-dark-rgb), 0.075) 80.2%,
+    rgba(var(--color-dark-rgb), 0.042) 86.1%,
+    rgba(var(--color-dark-rgb), 0.021) 91%,
+    rgba(var(--color-dark-rgb), 0.008) 95.2%,
+    rgba(var(--color-dark-rgb), 0.002) 98.2%,
+    transparent 100%
+  );
+}
+
+.parallax__black-line-overflow {
+  z-index: 20;
+  background-color: var(--color-black);
+  width: 100%;
+  height: 2px;
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+}
+
+.parallax__content {
+  position: relative;
+  z-index: 5;
+  margin-top: -3rem;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 1.5rem;
+  color: rgba(26, 26, 26, 0.45);
+}
+
+.parallax__scroll-hint {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.parallax__scroll-icon {
+  width: 2.25rem;
+  height: 2.25rem;
+  animation: parallax-bounce 2s ease-in-out infinite;
+}
+
+@keyframes parallax-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(6px);
+  }
+}
+
+@media (max-width: 767px) {
+  .parallax__header {
+    height: 220vh;
+  }
+
+  .parallax__title-block {
+    padding-top: 4.5rem;
+  }
+}
