@@ -2,7 +2,8 @@ import { useRef } from "react";
 import SectionTag from "../ui/SectionTag";
 import ProjectCard from "./ProjectCard";
 import { useProjectWaveSlider } from "../../hooks/useProjectWaveSlider";
-import { projects } from "../../data/projects";
+import { projects, projectsShowcaseBg } from "../../data/projects";
+import "./projects-fluid.css";
 
 const Projects = () => {
   const wrapRef = useRef(null);
@@ -12,37 +13,52 @@ const Projects = () => {
   useProjectWaveSlider(wrapRef, trackRef, cardsRef, projects.length);
 
   return (
-    <section id="projects" className="relative mt-8 md:mt-16">
-      <div className="projects-dark-shell w-full bg-vast text-lumen">
-        <div className="padding-global pb-10 pt-12 md:pb-14 md:pt-16">
-          <div className="mx-auto max-w-wide text-center">
-            <SectionTag className="!text-lumen/45">Selected work</SectionTag>
-            <h2 className="heading-h2 mt-5 text-lumen text-balance md:mt-6">
-              Projects I've <em className="italic">built & shipped.</em>
-            </h2>
-          </div>
-        </div>
+    <section id="projects" className="projects-fluid relative mt-8 md:mt-16">
+      <div className="padding-global pb-10 pt-4 md:pb-14 md:pt-6">
+        <div ref={wrapRef} className="projects-fluid-wrap mx-auto max-w-full">
+          <div className="projects-fluid-frame">
+            <div className="projects-fluid-media" aria-hidden="true">
+              <img src={projectsShowcaseBg} alt="" loading="lazy" />
+              <div className="projects-fluid-gradient-noise" />
+              <div className="projects-fluid-scrim" />
+            </div>
 
-        <div ref={wrapRef} className="project-wave-wrap relative pt-2 md:pt-4">
-          <div
-            ref={trackRef}
-            className="project-wave-track sticky top-[5.75rem] flex w-full items-center justify-center md:top-[6.5rem]"
-          >
-            {projects.map((project, i) => (
+            <div className="projects-fluid-cutout" aria-hidden="true">
+              <span className="projects-fluid-cutout-corner-ring" />
+            </div>
+
+            <div className="projects-fluid-intro">
+              <SectionTag>Selected work</SectionTag>
+              <h2 className="heading-h2 mt-5 text-balance md:mt-6">
+                Projects I've <em className="italic">built & shipped.</em>
+              </h2>
+            </div>
+
+            <div className="project-wave-wrap relative">
               <div
-                key={project.id}
-                ref={(el) => {
-                  cardsRef.current[i] = el;
-                }}
-                className="project-wave-card"
+                ref={trackRef}
+                className="project-wave-track flex w-full items-center justify-center"
               >
-                <ProjectCard project={project} />
+                {projects.map((project, i) => (
+                  <div
+                    key={project.id}
+                    ref={(el) => {
+                      cardsRef.current[i] = el;
+                    }}
+                    className="project-wave-card"
+                  >
+                    <ProjectCard project={project} />
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
+
+            <div className="projects-fluid-cutout-label">
+              <span aria-hidden="true">→</span>
+              <span>Scroll to browse projects</span>
+            </div>
           </div>
         </div>
-
-        <div className="projects-dark-shell-bottom" aria-hidden="true" />
       </div>
     </section>
   );

@@ -1,6 +1,6 @@
 const NAV_ITEMS = [
   { id: "home", label: "Home" },
-  { id: "experience", label: "Experience" },
+  { id: "skills", label: "Skills" },
   { id: "process", label: "Process" },
   { id: "features", label: "Features" },
   { id: "projects", label: "Projects" },

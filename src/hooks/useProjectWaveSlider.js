@@ -11,11 +11,11 @@ const GAP_PCT = 22;
 const GAP_PCT_MOBILE = 28;
 const GAP_MIN_PX = 96;
 const GAP_MAX_PX = 220;
-const VH_PER_CARD = 95;
-const VH_TAIL = 55;
-const Y_TRAVEL = 48;
-const ROT_IN = -22;
-const ROT_OUT = 22;
+const VH_PER_CARD = 98;
+const VH_TAIL = 58;
+const DEPTH_Y = 58;
+const ROT_IN = -8;
+const ROT_OUT = 28;
 const ROT_EASE = "power1.inOut";
 const ROT_SPAN_PCT = 200;
 const ORBIT_CARD_PCT = 68;
@@ -57,11 +57,11 @@ export function useProjectWaveSlider(wrapRef, trackRef, cardsRef, itemCount = 0)
       const vh = window.innerHeight;
       const mobile = vw < MIN_W;
       const cardW = getCardWidth(vw, mobile);
-      const yTravel = mobile ? Y_TRAVEL * 0.75 : Y_TRAVEL;
+      const depthY = mobile ? DEPTH_Y * 0.72 : DEPTH_Y;
       const scrub = mobile ? SCRUB_MOBILE : SCRUB_DESKTOP;
       const gapPct = mobile ? GAP_PCT_MOBILE : GAP_PCT;
 
-      track.style.perspectiveOrigin = "50% 50%";
+      track.style.perspectiveOrigin = "50% 24%";
       track.style.transformStyle = "preserve-3d";
 
       cards.forEach((card) => {
@@ -156,17 +156,21 @@ export function useProjectWaveSlider(wrapRef, trackRef, cardsRef, itemCount = 0)
           const sx = screenAt(u);
           const rot = rotAt(sx);
           const f = shrinkAt(sx);
-          const y = -(sx / travelHalf) * yTravel;
+          const depthT = Math.min(1, Math.abs(sx) / travelHalf);
+          const exitT = Math.min(1, Math.abs(sx) / (cardW * 0.42));
+          const y = depthT * depthY;
+          const scale = 1 - depthT * 0.24;
+          const opacity = 1 - depthT * 0.42;
 
           cards[j].style.pointerEvents = Math.abs(sx) < cardW * 0.35 ? "auto" : "none";
 
           gsap.set(cards[j], {
             x: sx / f,
             y,
-            rotateX: rot,
-            rotateY: (sx / travelHalf) * -3,
-            opacity: 1,
-            scale: 1,
+            rotateX: exitT * (rot + exitT * 16),
+            rotateY: exitT * (sx / travelHalf) * -2,
+            opacity: Math.max(0.38, opacity),
+            scale: Math.max(0.74, scale),
             zIndex: Math.round(1000 - Math.abs(sx)),
           });
         }
@@ -178,7 +182,7 @@ export function useProjectWaveSlider(wrapRef, trackRef, cardsRef, itemCount = 0)
       const cardSteps = Math.max(1, cards.length - 1);
       const travelPx = Math.round(cardSteps * (VH_PER_CARD / 100) * vh);
       const tailPx = Math.round((VH_TAIL / 100) * vh);
-      const trackH = track.offsetHeight || Math.round(vh * 0.82);
+      const trackH = track.offsetHeight || Math.round(vh * 0.78);
 
       wrap.style.height = `${trackH + travelPx + tailPx}px`;
 

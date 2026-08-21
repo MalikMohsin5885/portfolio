@@ -23,14 +23,12 @@ const PARALLAX_LAYERS = [
 ];
 
 export function ParallaxHero({
-  tag = "Full-stack developer",
-  title = "Build fast,",
-  titleEm = "ship clean code.",
-  subtitle = "I design and develop web & mobile products with React, Node, and modern cloud tooling.",
+  tag = "Data Engineer & Web Developer",
+  title = "Mohsin Rasheed",
+  titleEm = "data pipelines & web apps.",
+  subtitle = "I build reliable data systems and full-stack web products.",
   cta = "Get in touch",
-  ctaSecondary = "View experience",
-  availability = "Open to freelance, full-time, and remote roles",
-  techStack = ["React", "TypeScript", "Node.js", "React Native", "PostgreSQL"],
+  ctaSecondary = "View projects",
 }) {
   const parallaxRef = useRef(null);
 
@@ -95,17 +93,9 @@ export function ParallaxHero({
                 <p className="parallax__subtitle">{subtitle}</p>
                 <div className="parallax__actions">
                   <Button href="#contact">{cta}</Button>
-                  <Button href="#experience" variant="secondary">
+                  <Button href="#projects" variant="secondary">
                     {ctaSecondary}
                   </Button>
-                </div>
-                <p className="parallax__availability">{availability}</p>
-                <div className="parallax__tech-pills">
-                  {techStack.map((item) => (
-                    <span key={item} className="parallax__tech-pill">
-                      {item}
-                    </span>
-                  ))}
                 </div>
               </div>
             </div>

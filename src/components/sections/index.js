@@ -5,5 +5,6 @@ export { default as HowItWorks } from "./HowItWorks";
 export { default as FeaturesSection } from "./FeaturesSection";
 export { default as TrustStrip } from "./TrustStrip";
 export { default as Projects } from "./Projects";
+export { default as SkillsSection } from "./SkillsSection";
 export { default as FAQ } from "./FAQ";
 export { default as CTA } from "./CTA";

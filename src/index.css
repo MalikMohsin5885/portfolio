@@ -16,6 +16,13 @@ html {
   overflow-x: hidden;
 }
 
+html.hero-scroll--locked,
+body.hero-scroll--locked {
+  overflow: hidden !important;
+  height: 100%;
+  overscroll-behavior: none;
+}
+
   body {
     @apply bg-lumen text-vast font-sans antialiased;
   }
@@ -154,40 +161,15 @@ html {
   transition: border-radius 0.3s ease;
 }
 
-/* Projects — full-width dark shell + wave deck */
-.projects-dark-shell {
-  position: relative;
-  overflow: visible;
-  border-radius: 0;
-  box-shadow: none;
-}
+/* Projects — fluid showcase + wave deck */
 
 .project-wave-wrap {
   position: relative;
 }
 
 .project-wave-track {
-  min-height: 38rem;
-  padding: 1.5rem 0 3rem;
   overflow: visible;
   transform-style: preserve-3d;
-}
-
-@media (min-width: 768px) {
-  .project-wave-track {
-    min-height: 44rem;
-    padding: 2rem 0 3.5rem;
-  }
-}
-
-.projects-dark-shell-bottom {
-  height: 2.5rem;
-}
-
-@media (min-width: 768px) {
-  .projects-dark-shell-bottom {
-    height: 3.5rem;
-  }
 }
 
 .project-wave-card {
@@ -198,16 +180,41 @@ html {
   backface-visibility: hidden;
 }
 
-.project-card {
-  box-shadow:
-    0 28px 70px rgba(0, 0, 0, 0.35),
-    0 10px 24px rgba(0, 0, 0, 0.2);
-}
-
 @media (max-width: 767px) {
   .project-card {
     min-height: 24rem;
   }
+}
+
+@keyframes orbit-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.orbit-rotation {
+  width: min(100%, var(--orbit-box, 31rem));
+  aspect-ratio: 1;
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.orbit-rotation__stage {
+  position: absolute;
+  inset: 0;
+}
+
+.orbit-rotation__stage > .relative.z-10 {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
 /* Experience — Wispr "4x faster" stack section */

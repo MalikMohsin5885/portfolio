@@ -1,13 +1,15 @@
 export const PLACEHOLDER = {
   hero: {
-    tag: "Full-stack developer",
-    title: "Build fast,",
-    titleEm: "ship clean code.",
-    subtitle:
-      "Full-stack engineer who builds modern web and mobile products — and finds clarity on long trails between releases.",
+    tag: "Data Engineer & Web Developer",
+    title: "Mohsin Rasheed",
+    titleEm: "data pipelines & web apps.",
+    subtitle: "I build reliable data systems and full-stack web products.",
+    about:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
+    aboutExtra:
+      "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
     cta: "Get in touch",
-    ctaSecondary: "View experience",
-    availability: "Available for freelance, full-time, and remote roles",
+    ctaSecondary: "View projects",
   },
   marquee: {
     tag: "Built with",

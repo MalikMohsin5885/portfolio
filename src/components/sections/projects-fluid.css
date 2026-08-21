@@ -1,0 +1,297 @@
+/* Projects — Fluid reference container */
+
+.projects-fluid {
+  background-color: #ffffeb;
+}
+
+.projects-fluid-wrap {
+  position: relative;
+}
+
+.projects-fluid-frame {
+  position: sticky;
+  top: 5.5rem;
+  z-index: 1;
+  min-height: min(90vh, 920px);
+  isolation: isolate;
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .projects-fluid-frame {
+    top: 6.25rem;
+    min-height: min(94vh, 960px);
+  }
+}
+
+.projects-fluid-media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  border-radius: 2.25rem 2.25rem 2.25rem 2.75rem;
+  background:
+    linear-gradient(
+      180deg,
+      #4a606d 0%,
+      #536b79 14%,
+      #5b7886 26%,
+      #8a9298 44%,
+      #a8a2a8 58%,
+      #b6a9af 68%,
+      #9aa8b0 78%,
+      #cbd5dc 88%,
+      #1b2026 100%
+    );
+}
+
+@media (min-width: 768px) {
+  .projects-fluid-media {
+    border-radius: 3.5rem 3.5rem 3.5rem 4.5rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .projects-fluid-media {
+    border-radius: 4.5rem 4.5rem 4.5rem 5.5rem;
+  }
+}
+
+.projects-fluid-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 35%;
+  opacity: 0.22;
+  mix-blend-mode: soft-light;
+}
+
+.projects-fluid-gradient-noise {
+  position: absolute;
+  inset: 0;
+  opacity: 0.35;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+.projects-fluid-scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(26, 32, 38, 0.18) 0%, rgba(26, 32, 38, 0.04) 42%, rgba(27, 32, 38, 0.32) 100%),
+    radial-gradient(ellipse 90% 55% at 50% 38%, rgba(255, 255, 235, 0.06), transparent 72%);
+  pointer-events: none;
+}
+
+/* Bottom-right fluid cutout — page background flows into image */
+.projects-fluid-cutout {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 4;
+  width: min(30%, 360px);
+  height: min(24%, 240px);
+  pointer-events: none;
+}
+
+.projects-fluid-cutout::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background: #ffffeb;
+  border-top-left-radius: 2rem 1.65rem;
+  border-bottom-right-radius: 2.75rem;
+  border-bottom-left-radius: 0.875rem;
+}
+
+@media (min-width: 768px) {
+  .projects-fluid-cutout::before {
+    border-top-left-radius: 2.5rem 2rem;
+    border-bottom-right-radius: 4.5rem;
+    border-bottom-left-radius: 1.125rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .projects-fluid-cutout::before {
+    border-top-left-radius: 2.75rem 2.25rem;
+    border-bottom-right-radius: 5.5rem;
+    border-bottom-left-radius: 1.25rem;
+  }
+}
+
+/* Subtle S-curve bump — rounded pointer at wave tip */
+.projects-fluid-cutout::after {
+  content: "";
+  position: absolute;
+  left: -3%;
+  top: -1%;
+  width: 9%;
+  height: 9%;
+  min-width: 1.125rem;
+  min-height: 1.125rem;
+  background: #ffffeb;
+  border-radius: 50%;
+}
+
+/* Bottom-right corner arc — matches reference pointer ring */
+.projects-fluid-cutout-corner-ring {
+  position: absolute;
+  right: 0.875rem;
+  bottom: 0.875rem;
+  z-index: 1;
+  width: 3.25rem;
+  height: 3.25rem;
+  border: 1px solid rgba(26, 26, 26, 0.1);
+  border-top: none;
+  border-left: none;
+  border-radius: 0 0 100% 0;
+  pointer-events: none;
+}
+
+@media (min-width: 768px) {
+  .projects-fluid-cutout {
+    width: min(28%, 400px);
+    height: min(22%, 280px);
+  }
+
+  .projects-fluid-cutout::after {
+    left: -3.5%;
+    width: 8%;
+    height: 8%;
+  }
+
+  .projects-fluid-cutout-corner-ring {
+    right: 1.35rem;
+    bottom: 1.35rem;
+    width: 4.75rem;
+    height: 4.75rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .projects-fluid-cutout {
+    width: min(26%, 420px);
+    height: min(20%, 300px);
+  }
+
+  .projects-fluid-cutout::after {
+    left: -4%;
+    width: 7%;
+    height: 7%;
+  }
+
+  .projects-fluid-cutout-corner-ring {
+    right: 1.75rem;
+    bottom: 1.75rem;
+    width: 5.75rem;
+    height: 5.75rem;
+  }
+}
+
+.projects-fluid-intro {
+  position: relative;
+  z-index: 6;
+  padding: 2.5rem 1.5rem 0;
+  text-align: center;
+  pointer-events: none;
+}
+
+@media (min-width: 768px) {
+  .projects-fluid-intro {
+    padding: 3.5rem 2.5rem 0;
+  }
+}
+
+.projects-fluid-intro .section-tag {
+  color: rgba(255, 255, 235, 0.55) !important;
+}
+
+.projects-fluid-intro h2 {
+  color: #ffffeb;
+  text-shadow: 0 2px 28px rgba(0, 0, 0, 0.35);
+}
+
+.projects-fluid-cutout-label {
+  position: absolute;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 8;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: rgba(26, 26, 26, 0.55);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+@media (min-width: 768px) {
+  .projects-fluid-cutout-label {
+    right: 2rem;
+    bottom: 2rem;
+    font-size: 0.875rem;
+  }
+}
+
+.projects-fluid-cutout-label span:first-child {
+  display: inline-flex;
+  height: 2.25rem;
+  width: 2.25rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  border: 1px solid rgba(26, 26, 26, 0.12);
+  background: rgba(255, 255, 235, 0.65);
+  color: rgba(26, 26, 26, 0.7);
+}
+
+.projects-fluid .project-wave-wrap {
+  position: relative;
+  z-index: 5;
+  perspective: 1400px;
+  perspective-origin: 50% 24%;
+}
+
+.projects-fluid .project-wave-track {
+  min-height: 34rem;
+  padding: 1.25rem 0 5.5rem;
+  transform-style: preserve-3d;
+}
+
+@media (min-width: 768px) {
+  .projects-fluid .project-wave-track {
+    min-height: 38rem;
+    padding: 1.5rem 0 6.5rem;
+  }
+}
+
+.projects-fluid .project-card {
+  box-shadow:
+    0 32px 80px rgba(0, 0, 0, 0.28),
+    0 12px 32px rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(2px);
+}
+
+@media (max-width: 767px) {
+  .projects-fluid-cutout {
+    width: 40%;
+    height: 22%;
+  }
+
+  .projects-fluid-cutout::after {
+    left: -4%;
+    width: 10%;
+    height: 10%;
+  }
+
+  .projects-fluid-cutout-corner-ring {
+    right: 0.75rem;
+    bottom: 0.75rem;
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+}

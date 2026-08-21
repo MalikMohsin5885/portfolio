@@ -1,12 +1,11 @@
 import { NavBar, BottomBar, Footer } from "../components/layout";
 import {
   Hero,
-  LogoMarquee,
-  ExperienceSection,
   HowItWorks,
   FeaturesSection,
   TrustStrip,
   Projects,
+  SkillsSection,
   FAQ,
   CTA,
 } from "../components/sections";
@@ -17,12 +16,11 @@ const Home = () => {
       <NavBar />
       <main>
         <Hero />
-        <LogoMarquee />
-        <ExperienceSection />
+        <Projects />
+        <SkillsSection />
         <HowItWorks />
         <FeaturesSection />
         <TrustStrip />
-        <Projects />
         <FAQ />
         <CTA />
       </main>

@@ -2,6 +2,10 @@
  * Project cards for the pinned wave-slider section.
  * Replace placeholders with your real projects, demo URLs, and screenshots.
  */
+
+export const projectsShowcaseBg =
+  "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1920&h=1200&fit=crop";
+
 export const projects = [
   {
     id: "reservify",
