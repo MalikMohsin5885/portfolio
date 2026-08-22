@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "@studio-freight/lenis";
@@ -16,6 +16,39 @@ export function useLenisScroll() {
 
     lenis.on("scroll", ScrollTrigger.update);
 
+    const onHeroScroll = (event) => {
+      if (window.location.pathname !== "/") return;
+
+      if (event.detail?.complete) {
+        lenis.start();
+      } else {
+        lenis.stop();
+        lenis.scrollTo(0, { immediate: true });
+      }
+    };
+
+    lenis.stop();
+
+    const syncLenisForRoute = () => {
+      if (window.location.pathname !== "/") {
+        lenis.start();
+      }
+    };
+
+    syncLenisForRoute();
+
+    const onRouteChange = (event) => {
+      if (event.detail?.pathname !== "/") {
+        lenis.start();
+        return;
+      }
+      lenis.stop();
+      lenis.scrollTo(0, { immediate: true });
+    };
+
+    window.addEventListener("hero-scroll-complete", onHeroScroll);
+    window.addEventListener("app-route-change", onRouteChange);
+
     const onTick = (time) => {
       lenis.raf(time * 1000);
     };
@@ -24,6 +57,8 @@ export function useLenisScroll() {
     gsap.ticker.lagSmoothing(0);
 
     return () => {
+      window.removeEventListener("hero-scroll-complete", onHeroScroll);
+      window.removeEventListener("app-route-change", onRouteChange);
       gsap.ticker.remove(onTick);
       lenis.destroy();
     };

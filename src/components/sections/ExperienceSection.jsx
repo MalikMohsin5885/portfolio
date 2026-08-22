@@ -18,7 +18,7 @@ const ExperienceSection = () => {
   return (
     <section id="experience" ref={sectionRef} className="exp-section relative">
       <div ref={outerRef} data-corners="80" data-corners-mobile="2.5rem" className="exp-outer bg-vast">
-        <div ref={pinRef} className="exp-green-shell bg-fathom text-lumen">
+        <div ref={pinRef} className="exp-green-shell bg-vast text-lumen">
           <div className="padding-global flex h-full min-h-[100dvh] flex-col">
             <div className="exp-header mx-auto max-w-content pt-16 text-center md:pt-20">
               <p className="section-tag !text-lumen/50">{experience.tag}</p>
@@ -71,7 +71,7 @@ const ExperienceSection = () => {
                     alt=""
                     className="absolute inset-0 h-full w-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-br from-vast/80 via-fathom/75 to-fathom/90" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-vast/80 via-vast/60 to-vast/90" />
 
                   <div className="relative z-10 flex h-full flex-col justify-between p-6 md:p-8">
                     <div>

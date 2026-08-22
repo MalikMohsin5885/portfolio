@@ -92,8 +92,9 @@ body.hero-scroll--locked {
       transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98];
   }
 
-  .section-green {
-    @apply rounded-section-xl bg-fathom text-lumen;
+  .section-green,
+  .section-surface {
+    @apply rounded-section-xl border border-vast/10 bg-vast text-lumen;
   }
 
   .card-surface {
@@ -178,11 +179,21 @@ body.hero-scroll--locked {
   will-change: transform;
   transform-style: preserve-3d;
   backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
 @media (max-width: 767px) {
   .project-card {
-    min-height: 24rem;
+    height: auto;
+    min-height: 0;
+    box-shadow:
+      0 16px 40px rgba(0, 0, 0, 0.32),
+      0 4px 12px rgba(0, 0, 0, 0.18);
+  }
+
+  .project-card__media {
+    border-bottom: 1px solid rgba(26, 26, 26, 0.06);
   }
 }
 
@@ -196,13 +207,13 @@ body.hero-scroll--locked {
 }
 
 .orbit-rotation {
-  width: min(100%, var(--orbit-box, 31rem));
+  --orbit-size: min(calc(100vw - 2.5rem), 20rem);
+  width: var(--orbit-size);
+  max-width: 100%;
   aspect-ratio: 1;
-  overflow: hidden;
   position: relative;
+  margin-inline: auto;
   flex-shrink: 0;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 .orbit-rotation__stage {
@@ -210,11 +221,96 @@ body.hero-scroll--locked {
   inset: 0;
 }
 
-.orbit-rotation__stage > .relative.z-10 {
+.orbit-rotation__center {
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+}
+
+.orbit-rotation__center--sm {
+  width: 2.75rem;
+  height: 2.75rem;
+}
+
+.orbit-rotation__center--md {
+  width: 3.5rem;
+  height: 3.5rem;
+}
+
+.orbit-rotation__center--lg {
+  width: 4.25rem;
+  height: 4.25rem;
+}
+
+.orbit-rotation__icon--sm {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+.orbit-rotation__icon--md {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+
+.orbit-rotation__icon--lg {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+.orbit-rotation__badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.2rem;
+}
+
+.orbit-rotation__ring-line {
+  color: rgba(26, 26, 26, 0.34);
+}
+
+.orbit-rotation__ring-line circle {
+  paint-order: stroke;
+}
+
+@media (min-width: 640px) {
+  .orbit-rotation {
+    --orbit-size: min(100%, 26rem);
+  }
+
+  .orbit-rotation__center--md {
+    width: 4rem;
+    height: 4rem;
+  }
+
+  .orbit-rotation__icon--md {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .orbit-rotation__badge {
+    padding: 0.22rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .orbit-rotation {
+    --orbit-size: min(100%, 30rem);
+  }
+
+  .orbit-rotation__center--md {
+    width: 4.5rem;
+    height: 4.5rem;
+  }
+
+  .orbit-rotation__icon--md {
+    width: 1.125rem;
+    height: 1.125rem;
+  }
+
+  .orbit-rotation__badge {
+    padding: 0.25rem;
+  }
 }
 
 /* Experience — Wispr "4x faster" stack section */

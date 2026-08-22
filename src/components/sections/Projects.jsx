@@ -23,10 +23,6 @@ const Projects = () => {
               <div className="projects-fluid-scrim" />
             </div>
 
-            <div className="projects-fluid-cutout" aria-hidden="true">
-              <span className="projects-fluid-cutout-corner-ring" />
-            </div>
-
             <div className="projects-fluid-intro">
               <SectionTag>Selected work</SectionTag>
               <h2 className="heading-h2 mt-5 text-balance md:mt-6">
@@ -51,11 +47,6 @@ const Projects = () => {
                   </div>
                 ))}
               </div>
-            </div>
-
-            <div className="projects-fluid-cutout-label">
-              <span aria-hidden="true">→</span>
-              <span>Scroll to browse projects</span>
             </div>
           </div>
         </div>

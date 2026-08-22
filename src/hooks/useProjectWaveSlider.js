@@ -167,11 +167,13 @@ export function useProjectWaveSlider(wrapRef, trackRef, cardsRef, itemCount = 0)
           gsap.set(cards[j], {
             x: sx / f,
             y,
-            rotateX: exitT * (rot + exitT * 16),
-            rotateY: exitT * (sx / travelHalf) * -2,
+            z: 0.01,
+            rotateX: exitT * (rot + exitT * 12),
+            rotateY: exitT * (sx / travelHalf) * -1.5,
             opacity: Math.max(0.38, opacity),
             scale: Math.max(0.74, scale),
             zIndex: Math.round(1000 - Math.abs(sx)),
+            force3D: true,
           });
         }
       };

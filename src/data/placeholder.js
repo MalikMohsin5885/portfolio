@@ -4,6 +4,7 @@ export const PLACEHOLDER = {
     title: "Mohsin Rasheed",
     titleEm: "data pipelines & web apps.",
     subtitle: "I build reliable data systems and full-stack web products.",
+    hook: "Data pipelines by day. Web apps that ship by night.",
     about:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
     aboutExtra:

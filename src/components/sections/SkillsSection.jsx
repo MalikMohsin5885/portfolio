@@ -75,7 +75,7 @@ const SkillsSection = () => (
               key={category.id}
               className="card-surface rounded-section p-5 md:p-6"
             >
-              <h3 className="text-sm font-semibold uppercase tracking-[0.08em] text-fathom">
+              <h3 className="text-sm font-semibold uppercase tracking-[0.08em] text-vast/55">
                 {category.label}
               </h3>
               <ul className="mt-4 flex flex-wrap gap-2">
@@ -92,15 +92,14 @@ const SkillsSection = () => (
           ))}
         </div>
 
-        <div className="flex min-w-0 items-center justify-center">
-          <div className="flex w-full max-w-[34rem] items-center justify-center rounded-section-xl bg-gradient-to-br from-fathom/8 via-transparent to-glow/10 px-4 py-8 sm:px-6 sm:py-10 lg:min-h-[32rem]">
+        <div className="flex min-w-0 items-center justify-center overflow-hidden">
+          <div className="flex w-full max-w-full items-center justify-center rounded-section-xl border border-vast/10 bg-gradient-to-br from-lumen-dark/80 via-lumen to-lumen-dark/40 px-2 py-6 sm:max-w-[36rem] sm:px-6 sm:py-10 lg:min-h-[34rem]">
             <OrbitRotation
               icons={ORBIT_ICONS}
               centerIcon={{ Icon: SiDatabricks, name: "Databricks" }}
-              orbitCount={4}
-              orbitGap={5}
+              orbitCount={5}
+              orbitGap={12}
               size="md"
-              className="w-full max-w-[31rem]"
             />
           </div>
         </div>

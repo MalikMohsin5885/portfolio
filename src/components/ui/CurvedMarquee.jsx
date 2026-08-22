@@ -10,6 +10,9 @@ const CurvedMarquee = ({
   opacity = 1,
   duration = 40,
   className = "",
+  showGuide = false,
+  guideStroke = "rgba(26, 26, 26, 0.08)",
+  guideStrokeWidth = 1.5,
 }) => {
   const textRef = useRef(null);
 
@@ -42,6 +45,16 @@ const CurvedMarquee = ({
       <defs>
         <path id={pathId} d={curvePath} />
       </defs>
+      {showGuide && (
+        <path
+          d={curvePath}
+          fill="none"
+          stroke={guideStroke}
+          strokeWidth={guideStrokeWidth}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      )}
       <text fill={fill} opacity={opacity} fontSize={fontSize} fontWeight={500}>
         <textPath ref={textRef} href={`#${pathId}`} startOffset="0%">
           {text}

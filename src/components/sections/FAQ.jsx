@@ -38,7 +38,7 @@ const FAQ = () => {
           </div>
 
           <div className="flex min-h-[280px] flex-col justify-center rounded-section bg-lumen-dark p-8 md:p-10">
-            <div className="mb-6 font-serif text-4xl text-fathom/30">MR</div>
+            <div className="mb-6 font-serif text-4xl text-vast/15">MR</div>
             <div key={active} className="faq-answer-enter">
               <h3 className="font-serif text-xl text-vast">{faq.items[active].q}</h3>
               <p className="mt-4 leading-relaxed text-vast/70">{faq.items[active].a}</p>

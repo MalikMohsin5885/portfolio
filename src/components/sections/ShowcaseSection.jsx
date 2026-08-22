@@ -44,7 +44,7 @@ const ShowcaseSection = () => {
 
   return (
     <section id="showcase" ref={sectionRef} className="relative">
-      <div ref={pinRef} className="corner-section section-green mx-4 overflow-hidden md:mx-8">
+      <div ref={pinRef} className="corner-section section-surface mx-4 overflow-hidden md:mx-8">
         <div className="padding-global py-20 md:py-28">
           <div className="mx-auto max-w-content text-center">
             <SectionTag className="!text-lumen/60">{showcase.tag}</SectionTag>
@@ -74,7 +74,7 @@ const ShowcaseSection = () => {
               ref={cardRef}
               className="mockup-card rounded-section-lg border border-lumen/20 bg-vast p-1"
             >
-              <div className="rounded-[1.2rem] bg-gradient-to-br from-vast to-fathom p-6 md:p-8">
+              <div className="rounded-[1.2rem] bg-gradient-to-br from-vast to-vast/80 p-6 md:p-8">
                 <div className="mb-4 flex items-center justify-between">
                   <span className="font-serif text-xl text-lumen">{showcase.fastLabel}</span>
                   <span className="rounded-full bg-glow px-3 py-1 font-mono text-sm font-bold text-vast">

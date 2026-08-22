@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { VerticalCutReveal } from "./vertical-cut-reveal";
 import "./scroll-expansion-hero.css";
 
 const MAX_PROGRESS = 1.55;
@@ -8,36 +9,133 @@ const EXPAND_END = 0.78;
 const INTRO_FADE_END = 0.28;
 const MORPH_END = 0.58;
 const ABOUT_FADE_START = 0.42;
+const HANDOFF_END = 0.3;
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
-const easeOutCubic = (t) => 1 - (1 - t) ** 3;
+const lerp = (start, end, t) => start + (end - start) * t;
+const smoothstep = (t) => {
+  const x = clamp(t, 0, 1);
+  return x * x * (3 - 2 * x);
+};
 
 const ScrollExpandMedia = ({
   profileSrc,
   personSrc,
   bgLayers = [],
   title = "",
+  hook = "",
   children,
 }) => {
-  const [progress, setProgress] = useState(0);
   const [heroComplete, setHeroComplete] = useState(false);
-  const [touchStartY, setTouchStartY] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const [viewportWidth, setViewportWidth] = useState(1200);
 
   const progressRef = useRef(0);
   const completeRef = useRef(false);
+  const touchStartYRef = useRef(0);
+  const rafRef = useRef(null);
+  const pendingProgressRef = useRef(null);
+  const layoutRef = useRef({ isMobile: false, viewportWidth: 1200 });
 
-  useEffect(() => {
-    progressRef.current = progress;
-  }, [progress]);
+  const bgWrapRef = useRef(null);
+  const standaloneRef = useRef(null);
+  const introRef = useRef(null);
+  const cardWrapRef = useRef(null);
+  const personInCardRef = useRef(null);
+  const profileInCardRef = useRef(null);
+  const aboutPanelRef = useRef(null);
+  const fadeBottomRef = useRef(null);
 
   useEffect(() => {
     completeRef.current = heroComplete;
   }, [heroComplete]);
 
-  /* Lock page scroll while hero animation is active */
   useEffect(() => {
+    window.dispatchEvent(
+      new CustomEvent("hero-scroll-complete", { detail: { complete: heroComplete } }),
+    );
+  }, [heroComplete]);
+
+  const getCardMetrics = () => {
+    const { isMobile: mobile, viewportWidth: vw } = layoutRef.current;
+    const cardMaxW = mobile ? Math.min(vw * 0.94, 520) : 1220;
+    const cardMaxH = mobile ? 680 : 620;
+    const cardMinScale = mobile ? 280 / cardMaxW : 300 / 1220;
+    return { cardMaxW, cardMaxH, cardMinScale };
+  };
+
+  const paintProgress = (p) => {
+    const expandT = clamp((p - EXPAND_START) / (EXPAND_END - EXPAND_START), 0, 1);
+    const morphT = smoothstep(
+      clamp((p - EXPAND_START) / (MORPH_END - EXPAND_START), 0, 1),
+    );
+    const handoffT = smoothstep(
+      clamp((p - EXPAND_START) / (HANDOFF_END - EXPAND_START), 0, 1),
+    );
+    const introOpacity = 1 - smoothstep(clamp(p / INTRO_FADE_END, 0, 1));
+    const aboutOpacity = smoothstep(clamp((p - ABOUT_FADE_START) / 0.38, 0, 1));
+    const bgOpacity = 1 - p * 0.88;
+    const { cardMinScale } = getCardMetrics();
+    const cardScale = lerp(cardMinScale, 1, expandT);
+
+    if (bgWrapRef.current) {
+      bgWrapRef.current.style.opacity = String(bgOpacity);
+    }
+
+    if (standaloneRef.current) {
+      const inHandoff = p >= EXPAND_START;
+      const standaloneOpacity = inHandoff ? 1 - handoffT : 1;
+      const standaloneScale = inHandoff ? lerp(1, cardMinScale * 1.05, handoffT) : 1;
+      standaloneRef.current.style.opacity = String(standaloneOpacity);
+      standaloneRef.current.style.transform = `translate3d(0, ${p * -4}%, 0) scale(${standaloneScale})`;
+    }
+
+    if (introRef.current) {
+      introRef.current.style.opacity = String(introOpacity);
+    }
+
+    if (cardWrapRef.current) {
+      const cardOpacity = p >= EXPAND_START ? handoffT : 0;
+      cardWrapRef.current.style.opacity = String(cardOpacity);
+      cardWrapRef.current.style.transform = `translate3d(-50%, -50%, 0) scale(${cardScale})`;
+    }
+
+    if (personInCardRef.current) {
+      personInCardRef.current.style.opacity = String(1 - morphT);
+    }
+
+    if (profileInCardRef.current) {
+      profileInCardRef.current.style.opacity = String(morphT);
+    }
+
+    if (aboutPanelRef.current) {
+      aboutPanelRef.current.style.opacity = String(aboutOpacity);
+    }
+
+    if (fadeBottomRef.current) {
+      fadeBottomRef.current.style.opacity = String(
+        completeRef.current ? 0 : 1 - p * 0.5,
+      );
+    }
+  };
+
+  const syncCardSize = () => {
+    if (!cardWrapRef.current) return;
+    const { cardMaxW, cardMaxH } = getCardMetrics();
+    cardWrapRef.current.style.width = `${cardMaxW}px`;
+    cardWrapRef.current.style.height = `${cardMaxH}px`;
+  };
+
+  useLayoutEffect(() => {
+    layoutRef.current = {
+      isMobile: window.innerWidth < 768,
+      viewportWidth: window.innerWidth,
+    };
+    syncCardSize();
+    paintProgress(0);
+  }, []);
+
+  useLayoutEffect(() => {
     const html = document.documentElement;
     const body = document.body;
 
@@ -65,62 +163,97 @@ const ScrollExpandMedia = ({
   }, [heroComplete]);
 
   useEffect(() => {
-    const applyProgress = (next) => {
-      const clamped = clamp(next, 0, MAX_PROGRESS);
+    layoutRef.current = { isMobile, viewportWidth };
+    syncCardSize();
+    paintProgress(progressRef.current);
+  }, [isMobile, viewportWidth, heroComplete]);
+
+  useEffect(() => {
+    const commitProgress = (clamped) => {
       progressRef.current = clamped;
-      setProgress(clamped);
+      paintProgress(clamped);
 
       if (clamped >= MAX_PROGRESS && !completeRef.current) {
         completeRef.current = true;
         setHeroComplete(true);
-      } else if (clamped < MAX_PROGRESS - 0.02 && completeRef.current) {
-        completeRef.current = false;
-        setHeroComplete(false);
       }
+    };
+
+    const flushProgress = () => {
+      rafRef.current = null;
+      if (pendingProgressRef.current === null) return;
+      const clamped = pendingProgressRef.current;
+      pendingProgressRef.current = null;
+      commitProgress(clamped);
+    };
+
+    const applyProgress = (next) => {
+      pendingProgressRef.current = clamp(next, 0, MAX_PROGRESS);
+      if (!rafRef.current) {
+        rafRef.current = requestAnimationFrame(flushProgress);
+      }
+    };
+
+    const pinScrollTop = () => {
+      if (window.scrollY !== 0) {
+        window.scrollTo(0, 0);
+      }
+    };
+
+    const reenterHero = () => {
+      if (!completeRef.current) return;
+
+      const resumeAt = MAX_PROGRESS - 0.08;
+      progressRef.current = resumeAt;
+      paintProgress(resumeAt);
+
+      completeRef.current = false;
+      window.dispatchEvent(
+        new CustomEvent("hero-scroll-complete", { detail: { complete: false } }),
+      );
+      setHeroComplete(false);
+
+      requestAnimationFrame(pinScrollTop);
     };
 
     const handleWheel = (e) => {
       if (completeRef.current) {
         if (e.deltaY < 0 && window.scrollY <= 8) {
           e.preventDefault();
-          e.stopPropagation();
-          completeRef.current = false;
-          setHeroComplete(false);
-          applyProgress(MAX_PROGRESS - 0.08);
-          window.scrollTo(0, 0);
+          reenterHero();
         }
         return;
       }
 
       e.preventDefault();
-      e.stopPropagation();
-      window.scrollTo(0, 0);
       applyProgress(progressRef.current + e.deltaY * SCROLL_SENSITIVITY);
+      pinScrollTop();
     };
 
     const handleTouchStart = (e) => {
       if (completeRef.current) return;
-      setTouchStartY(e.touches[0].clientY);
+      touchStartYRef.current = e.touches[0].clientY;
     };
 
     const handleTouchMove = (e) => {
       if (completeRef.current) return;
-      if (!touchStartY) return;
+      if (!touchStartYRef.current) return;
 
-      const deltaY = touchStartY - e.touches[0].clientY;
+      const deltaY = touchStartYRef.current - e.touches[0].clientY;
       e.preventDefault();
-      e.stopPropagation();
-      window.scrollTo(0, 0);
       const factor = deltaY < 0 ? 0.0045 : 0.003;
       applyProgress(progressRef.current + deltaY * factor);
-      setTouchStartY(e.touches[0].clientY);
+      touchStartYRef.current = e.touches[0].clientY;
+      pinScrollTop();
     };
 
-    const handleTouchEnd = () => setTouchStartY(0);
+    const handleTouchEnd = () => {
+      touchStartYRef.current = 0;
+    };
 
     const handleScroll = () => {
-      if (!completeRef.current && window.scrollY !== 0) {
-        window.scrollTo(0, 0);
+      if (!completeRef.current) {
+        pinScrollTop();
       }
     };
 
@@ -131,13 +264,14 @@ const ScrollExpandMedia = ({
     window.addEventListener("touchend", handleTouchEnd);
 
     return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
       window.removeEventListener("wheel", handleWheel);
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("touchstart", handleTouchStart);
       window.removeEventListener("touchmove", handleTouchMove);
       window.removeEventListener("touchend", handleTouchEnd);
     };
-  }, [touchStartY]);
+  }, []);
 
   useEffect(() => {
     const onResize = () => {
@@ -149,44 +283,13 @@ const ScrollExpandMedia = ({
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
-  const expandT = easeOutCubic(
-    clamp((progress - EXPAND_START) / (EXPAND_END - EXPAND_START), 0, 1),
-  );
-  const morphT = easeOutCubic(
-    clamp((progress - EXPAND_START) / (MORPH_END - EXPAND_START), 0, 1),
-  );
-  const introOpacity = 1 - clamp(progress / INTRO_FADE_END, 0, 1);
-  const aboutOpacity = clamp((progress - ABOUT_FADE_START) / 0.38, 0, 1);
-  const bgOpacity = 1 - progress * 0.88;
-  const standalonePersonOpacity =
-    progress < EXPAND_START
-      ? 1
-      : clamp(1 - (progress - EXPAND_START) / 0.22, 0, 1);
-
-  const cardWidth = isMobile
-    ? 280 + expandT * (Math.min(viewportWidth * 0.94, 520) - 280)
-    : 300 + expandT * 920;
-  const cardHeight = isMobile
-    ? 380 + expandT * 220
-    : 420 + expandT * 200;
-
-  const cardOpacity = clamp((progress - EXPAND_START * 0.4) / 0.18, 0, 1);
-  const showCard = progress > EXPAND_START * 0.35;
-
-  const shellClass = heroComplete
-    ? "hero-scroll relative z-10 w-full bg-lumen"
-    : "hero-scroll fixed inset-0 z-50 w-full overflow-hidden bg-black";
+  const { cardMaxW, cardMaxH, cardMinScale } = getCardMetrics();
 
   return (
-    <>
-      {!heroComplete && <div className="h-[100dvh] w-full shrink-0" aria-hidden="true" />}
-
-      <div id="home" className={shellClass}>
-        <div className="relative min-h-[100dvh] w-full">
-          <div
-            className="absolute inset-0 overflow-hidden"
-            style={{ opacity: bgOpacity }}
-          >
+    <div id="home" className="hero-scroll relative z-10 w-full bg-lumen">
+      <div className="hero-scroll__stage sticky top-0 h-[100dvh] w-full overflow-hidden bg-black">
+        <div className="relative h-full w-full">
+          <div ref={bgWrapRef} className="absolute inset-0 overflow-hidden">
             {bgLayers.map((src, index) => (
               <img
                 key={src}
@@ -200,75 +303,94 @@ const ScrollExpandMedia = ({
           </div>
 
           <img
+            ref={standaloneRef}
             src={personSrc}
             alt=""
             className="hero-scroll__layer-img hero-scroll__person-standalone"
-            style={{
-              opacity: standalonePersonOpacity,
-              transform: `translateY(${progress * -4}%)`,
-            }}
           />
 
-          {/* Intro — name only, top center */}
           <div
-            className="hero-scroll__intro pointer-events-none absolute inset-0 flex"
-            style={{ opacity: introOpacity }}
+            ref={introRef}
+            className="hero-scroll__intro pointer-events-none absolute inset-0 flex flex-col items-center"
           >
-            <h1 className="hero-scroll__intro-title px-6">{title}</h1>
+            <h1 className="hero-scroll__intro-title px-6">
+              <VerticalCutReveal
+                splitBy="characters"
+                staggerDuration={0.04}
+                staggerFrom="center"
+                transition={{ damping: 20, stiffness: 300, type: "spring" }}
+                containerClassName="inline-block"
+              >
+                {title}
+              </VerticalCutReveal>
+            </h1>
+            {hook ? (
+              <p className="hero-scroll__intro-hook px-6">
+                <VerticalCutReveal
+                  splitBy="words"
+                  staggerDuration={0.07}
+                  staggerFrom="first"
+                  transition={{ damping: 22, stiffness: 200, type: "spring", delay: 0.35 }}
+                  containerClassName="inline-block"
+                >
+                  {hook}
+                </VerticalCutReveal>
+              </p>
+            ) : null}
           </div>
 
-          {showCard && (
-            <div
-              className="hero-scroll__card-wrap pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-              style={{
-                width: `${cardWidth}px`,
-                height: `${cardHeight}px`,
-                maxWidth: "94vw",
-                maxHeight: isMobile ? "88vh" : "78vh",
-                opacity: cardOpacity,
-              }}
-            >
-              <div className="hero-scroll__card flex h-full w-full flex-col overflow-hidden rounded-2xl md:flex-row md:rounded-[1.75rem]">
-                <div
-                  className={`hero-scroll__card-media relative shrink-0 overflow-hidden ${
-                    isMobile ? "h-[42%] w-full" : "h-full w-[38%]"
-                  }`}
-                >
-                  <img
-                    src={personSrc}
-                    alt=""
-                    className="absolute inset-0 h-full w-full object-cover object-bottom"
-                    style={{ opacity: 1 - morphT }}
-                  />
-                  <img
-                    src={profileSrc}
-                    alt={title}
-                    className="absolute inset-0 h-full w-full object-cover object-top"
-                    style={{ opacity: morphT }}
-                  />
-                </div>
+          <div
+            ref={cardWrapRef}
+            className="hero-scroll__card-wrap pointer-events-none absolute left-1/2 top-1/2"
+            style={{
+              width: `${cardMaxW}px`,
+              height: `${cardMaxH}px`,
+              maxWidth: "94vw",
+              maxHeight: isMobile ? "88vh" : "78vh",
+              opacity: 0,
+              transform: `translate3d(-50%, -50%, 0) scale(${cardMinScale})`,
+            }}
+          >
+            <div className="hero-scroll__card flex h-full w-full flex-col overflow-hidden rounded-2xl md:flex-row md:rounded-[1.75rem]">
+              <div
+                className={`hero-scroll__card-media relative shrink-0 overflow-hidden ${
+                  isMobile ? "h-[34%] max-h-[11rem] w-full" : "h-full w-[38%]"
+                }`}
+              >
+                <img
+                  ref={personInCardRef}
+                  src={personSrc}
+                  alt=""
+                  className="hero-scroll__card-photo absolute inset-0 h-full w-full object-cover object-[center_20%]"
+                />
+                <img
+                  ref={profileInCardRef}
+                  src={profileSrc}
+                  alt={title}
+                  className="hero-scroll__card-photo hero-scroll__card-photo--profile absolute inset-0 h-full w-full object-cover object-[center_20%]"
+                />
+              </div>
 
-                <div
-                  className={`hero-scroll__card-text-panel relative flex flex-1 flex-col justify-center overflow-hidden ${
-                    isMobile ? "min-h-0 w-full flex-1" : ""
-                  }`}
-                  style={{ opacity: aboutOpacity }}
-                >
-                  <div className="pointer-events-auto relative z-10 flex h-full flex-col justify-center overflow-y-auto px-5 py-6 md:px-8 md:py-8 lg:px-10">
-                    {children}
-                  </div>
+              <div
+                ref={aboutPanelRef}
+                className={`hero-scroll__card-text-panel relative flex min-h-0 flex-1 flex-col overflow-hidden ${
+                  isMobile ? "w-full" : "justify-center"
+                }`}
+              >
+                <div className="pointer-events-auto relative z-10 flex h-full min-h-0 flex-col overflow-hidden px-4 py-4 md:justify-center md:px-8 md:py-8 lg:px-10">
+                  {children}
                 </div>
               </div>
             </div>
-          )}
+          </div>
 
           <div
+            ref={fadeBottomRef}
             className="hero-scroll__fade-bottom pointer-events-none absolute bottom-0 left-0 h-[18%] w-full"
-            style={{ opacity: heroComplete ? 0 : 1 - progress * 0.5 }}
           />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

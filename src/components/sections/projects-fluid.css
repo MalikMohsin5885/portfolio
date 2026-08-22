@@ -15,12 +15,20 @@
   min-height: min(90vh, 920px);
   isolation: isolate;
   overflow: hidden;
+  border-radius: 2.25rem;
 }
 
 @media (min-width: 768px) {
   .projects-fluid-frame {
     top: 6.25rem;
     min-height: min(94vh, 960px);
+    border-radius: 3.5rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .projects-fluid-frame {
+    border-radius: 4.5rem;
   }
 }
 
@@ -29,7 +37,7 @@
   inset: 0;
   z-index: 0;
   overflow: hidden;
-  border-radius: 2.25rem 2.25rem 2.25rem 2.75rem;
+  border-radius: inherit;
   background:
     linear-gradient(
       180deg,
@@ -43,18 +51,6 @@
       #cbd5dc 88%,
       #1b2026 100%
     );
-}
-
-@media (min-width: 768px) {
-  .projects-fluid-media {
-    border-radius: 3.5rem 3.5rem 3.5rem 4.5rem;
-  }
-}
-
-@media (min-width: 992px) {
-  .projects-fluid-media {
-    border-radius: 4.5rem 4.5rem 4.5rem 5.5rem;
-  }
 }
 
 .projects-fluid-media img {
@@ -83,115 +79,6 @@
   pointer-events: none;
 }
 
-/* Bottom-right fluid cutout — page background flows into image */
-.projects-fluid-cutout {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  z-index: 4;
-  width: min(30%, 360px);
-  height: min(24%, 240px);
-  pointer-events: none;
-}
-
-.projects-fluid-cutout::before {
-  content: "";
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  width: 100%;
-  height: 100%;
-  background: #ffffeb;
-  border-top-left-radius: 2rem 1.65rem;
-  border-bottom-right-radius: 2.75rem;
-  border-bottom-left-radius: 0.875rem;
-}
-
-@media (min-width: 768px) {
-  .projects-fluid-cutout::before {
-    border-top-left-radius: 2.5rem 2rem;
-    border-bottom-right-radius: 4.5rem;
-    border-bottom-left-radius: 1.125rem;
-  }
-}
-
-@media (min-width: 992px) {
-  .projects-fluid-cutout::before {
-    border-top-left-radius: 2.75rem 2.25rem;
-    border-bottom-right-radius: 5.5rem;
-    border-bottom-left-radius: 1.25rem;
-  }
-}
-
-/* Subtle S-curve bump — rounded pointer at wave tip */
-.projects-fluid-cutout::after {
-  content: "";
-  position: absolute;
-  left: -3%;
-  top: -1%;
-  width: 9%;
-  height: 9%;
-  min-width: 1.125rem;
-  min-height: 1.125rem;
-  background: #ffffeb;
-  border-radius: 50%;
-}
-
-/* Bottom-right corner arc — matches reference pointer ring */
-.projects-fluid-cutout-corner-ring {
-  position: absolute;
-  right: 0.875rem;
-  bottom: 0.875rem;
-  z-index: 1;
-  width: 3.25rem;
-  height: 3.25rem;
-  border: 1px solid rgba(26, 26, 26, 0.1);
-  border-top: none;
-  border-left: none;
-  border-radius: 0 0 100% 0;
-  pointer-events: none;
-}
-
-@media (min-width: 768px) {
-  .projects-fluid-cutout {
-    width: min(28%, 400px);
-    height: min(22%, 280px);
-  }
-
-  .projects-fluid-cutout::after {
-    left: -3.5%;
-    width: 8%;
-    height: 8%;
-  }
-
-  .projects-fluid-cutout-corner-ring {
-    right: 1.35rem;
-    bottom: 1.35rem;
-    width: 4.75rem;
-    height: 4.75rem;
-  }
-}
-
-@media (min-width: 992px) {
-  .projects-fluid-cutout {
-    width: min(26%, 420px);
-    height: min(20%, 300px);
-  }
-
-  .projects-fluid-cutout::after {
-    left: -4%;
-    width: 7%;
-    height: 7%;
-  }
-
-  .projects-fluid-cutout-corner-ring {
-    right: 1.75rem;
-    bottom: 1.75rem;
-    width: 5.75rem;
-    height: 5.75rem;
-  }
-}
-
 .projects-fluid-intro {
   position: relative;
   z-index: 6;
@@ -215,40 +102,6 @@
   text-shadow: 0 2px 28px rgba(0, 0, 0, 0.35);
 }
 
-.projects-fluid-cutout-label {
-  position: absolute;
-  right: 1.25rem;
-  bottom: 1.25rem;
-  z-index: 8;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  color: rgba(26, 26, 26, 0.55);
-  font-size: 0.8125rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-}
-
-@media (min-width: 768px) {
-  .projects-fluid-cutout-label {
-    right: 2rem;
-    bottom: 2rem;
-    font-size: 0.875rem;
-  }
-}
-
-.projects-fluid-cutout-label span:first-child {
-  display: inline-flex;
-  height: 2.25rem;
-  width: 2.25rem;
-  align-items: center;
-  justify-content: center;
-  border-radius: 9999px;
-  border: 1px solid rgba(26, 26, 26, 0.12);
-  background: rgba(255, 255, 235, 0.65);
-  color: rgba(26, 26, 26, 0.7);
-}
-
 .projects-fluid .project-wave-wrap {
   position: relative;
   z-index: 5;
@@ -260,6 +113,19 @@
   min-height: 34rem;
   padding: 1.25rem 0 5.5rem;
   transform-style: preserve-3d;
+}
+
+@media (max-width: 767px) {
+  .projects-fluid .project-wave-track {
+    min-height: 26rem;
+    padding: 0.75rem 0 4.5rem;
+  }
+
+  .projects-fluid .project-card {
+    box-shadow:
+      0 20px 48px rgba(0, 0, 0, 0.34),
+      0 8px 20px rgba(0, 0, 0, 0.2);
+  }
 }
 
 @media (min-width: 768px) {
@@ -274,24 +140,4 @@
     0 32px 80px rgba(0, 0, 0, 0.28),
     0 12px 32px rgba(0, 0, 0, 0.18);
   backdrop-filter: blur(2px);
-}
-
-@media (max-width: 767px) {
-  .projects-fluid-cutout {
-    width: 40%;
-    height: 22%;
-  }
-
-  .projects-fluid-cutout::after {
-    left: -4%;
-    width: 10%;
-    height: 10%;
-  }
-
-  .projects-fluid-cutout-corner-ring {
-    right: 0.75rem;
-    bottom: 0.75rem;
-    width: 2.75rem;
-    height: 2.75rem;
-  }
 }

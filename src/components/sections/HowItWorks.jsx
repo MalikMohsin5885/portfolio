@@ -89,7 +89,7 @@ const HowItWorks = () => {
                 </div>
                 <div
                   key={`polished-${activeTab}`}
-                  className="faq-answer-enter rounded-xl border border-fathom/20 bg-fathom/5 p-4 text-sm text-vast"
+                  className="faq-answer-enter rounded-xl border border-vast/10 bg-lumen-dark/80 p-4 text-sm text-vast"
                 >
                   {tab.polished}
                 </div>
@@ -100,7 +100,7 @@ const HowItWorks = () => {
                   {[...Array(16)].map((_, i) => (
                     <span
                       key={i}
-                      className="w-0.5 rounded-full bg-fathom"
+                      className="w-0.5 rounded-full bg-vast/35"
                       style={{ height: `${6 + Math.sin(i + activeTab) * 6}px` }}
                     />
                   ))}

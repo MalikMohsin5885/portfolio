@@ -1,7 +1,7 @@
 const BG = {
   purple: "bg-dawn",
   lumen: "bg-lumen-dark",
-  green: "bg-fathom",
+  green: "bg-vast",
   yellow: "bg-glow",
   dark: "bg-vast/90",
   flare: "bg-flare/20",
@@ -39,7 +39,7 @@ export function TestimonialLandscapeFeatured({ item }) {
       </div>
       <div className="relative z-10 overflow-hidden rounded-xl">
         <div
-          className="h-full min-h-[220px] w-full bg-gradient-to-br from-vast/20 to-fathom/40"
+          className="h-full min-h-[220px] w-full bg-gradient-to-br from-vast/20 to-lumen-dark/60"
           style={
             item.image
               ? {
@@ -131,7 +131,7 @@ export function TestimonialLandscapePerson({ item }) {
       </div>
       <div className="relative z-10 overflow-hidden rounded-xl">
         <div
-          className="h-full min-h-[220px] w-full bg-gradient-to-br from-fathom/30 to-glow/40"
+          className="h-full min-h-[220px] w-full bg-gradient-to-br from-lumen-dark/80 to-vast/20"
           style={
             item.image
               ? {

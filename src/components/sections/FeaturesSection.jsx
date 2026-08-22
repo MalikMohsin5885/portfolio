@@ -81,7 +81,7 @@ const FeaturesSection = () => {
                         key={lang.label}
                         className={`rounded-full px-3 py-1 text-xs font-medium ${
                           i === active % FEATURE_DEMO.length
-                            ? "bg-fathom text-lumen"
+                            ? "bg-vast text-lumen"
                             : "bg-lumen-dark text-vast/60"
                         }`}
                       >
@@ -118,7 +118,7 @@ const FeaturesSection = () => {
                   <div className="rounded-full bg-lumen-dark px-4 py-2 text-sm text-vast/60">
                     "my LinkedIn"
                   </div>
-                  <div className="rounded-xl border border-fathom/20 bg-fathom/5 p-4 font-mono text-xs text-fathom break-all">
+                  <div className="rounded-xl border border-vast/10 bg-lumen-dark/70 p-4 font-mono text-xs text-vast/75 break-all">
                     https://www.linkedin.com/in/john-doe/
                   </div>
                 </div>
